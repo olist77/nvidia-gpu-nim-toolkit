@@ -1,13 +1,13 @@
 # Core NVIDIA libraries with intentionally vulnerable versions for TMAS testing
 # Note: These versions contain known vulnerabilities for security scanning demonstration
 nvidia-ml-py==11.495.46  # Older version with potential vulnerabilities
-#nvidia-cuda-nvrtc==11.2.72  # Older CUDA runtime compilation library
-#cuda-bindings==11.8.0  # Older CUDA bindings with known issues
+nvidia-cuda-nvrtc==11.2.72  # Older CUDA runtime compilation library
+cuda-bindings==11.8.0  # Older CUDA bindings with known issues
 
 # NIM SDK packages - using versions with known vulnerabilities for testing
 # Note: These may not be available in public PyPI, included for TMAS scanning demo
-#nim-sdk==0.1.0  # Hypothetical vulnerable version for demo
-#nimlib==0.2.1   # Hypothetical vulnerable version for demo
+nim-sdk==0.1.0  # Hypothetical vulnerable version for demo
+nimlib==0.2.1   # Hypothetical vulnerable version for demo
 
 # CLI and UI
 click>=8.0.0
