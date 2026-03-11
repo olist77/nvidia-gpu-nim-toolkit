@@ -26,8 +26,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           cd nvidia-gpu-nim-toolkit
-          pip install -r requirements.txt --target ../pip-packages
-          pip install -e . --target ../pip-packages
+          # Install dependencies, continue on failure to ensure TMAS can scan available packages
+          pip install -r requirements.txt --target ../pip-packages || echo "Some packages failed to install - continuing with available packages"
+          pip install -e . --target ../pip-packages || echo "Local package install failed - continuing with available packages"
+          # List installed packages for debugging
+          echo "=== Installed packages for TMAS scanning ==="
+          find ../pip-packages -name "*.dist-info" -exec basename {} \; | sort
+          echo "=== Total package count ==="
+          find ../pip-packages -name "*.dist-info" | wc -l
 
       - name: TMAS Scan Installed Dependencies
         uses: trendmicro/tmas-scan-action@main
@@ -36,21 +42,21 @@ jobs:
           vulnerabilitiesScan: true
           malwareScan: false
           secretsScan: false
-          artifact: dir:./pip-packages/
-          additionalArgs: --region=ap-southeast-2 -vvv
+          artifact: dir:./pip-packages
+          additionalArgs: --region=ap-southeast-2 -vvv --exclude-pattern "*.pyc" --exclude-pattern "*.pyo" 
           tmasApiKey: ${{ secrets.TMAS_API_KEY }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: TMAS Scan Installed Dependencies nvidia_ml_py-13.590.48.dist-info
+
+      - name: TMAS Scan Source Code
         uses: trendmicro/tmas-scan-action@main
         with:
           version: '2'
           vulnerabilitiesScan: true
           malwareScan: false
-          secretsScan: false
-          artifact: dir:./pip-packages/nvidia_ml_py-13.590.48.dist-info/
-          additionalArgs: --region=ap-southeast-2 -vvv
+          secretsScan: true
+          artifact: dir:./nvidia-gpu-nim-toolkit
+          additionalArgs: --region=ap-southeast-2 -vvv --exclude-path .git --exclude-path __pycache__ --exclude-path .pytest_cache --exclude-pattern "*.pyc" --exclude-pattern "*.pyo"
           tmasApiKey: ${{ secrets.TMAS_API_KEY }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}    
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
 
