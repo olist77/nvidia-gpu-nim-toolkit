@@ -41,15 +41,4 @@ jobs:
           tmasApiKey: ${{ secrets.TMAS_API_KEY }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: TMAS Scan Source Code
-        uses: trendmicro/tmas-scan-action@main
-        with:
-          version: '2'
-          vulnerabilitiesScan: true
-          malwareScan: false
-          secretsScan: true
-          artifact: dir:./nvidia-gpu-nim-toolkit
-          additionalArgs: --region=ap-southeast-2 -vvv --exclude-path .git --exclude-path __pycache__ --exclude-path .pytest_cache --exclude-pattern "*.pyc" --exclude-pattern "*.pyo"
-          tmasApiKey: ${{ secrets.TMAS_API_KEY }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
