@@ -1,4 +1,4 @@
-# NVIDIA GPU NIM Toolkit for testing
+# NVIDIA GPU NIM Toolkit for testing TMAS Scan
 
 A comprehensive Python toolkit for GPU monitoring and NVIDIA NIM inference with integrated security scanning capabilities.
 
